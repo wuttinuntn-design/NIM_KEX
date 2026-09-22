@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RA Manifest · สรุปสินค้าฝากส่งต่อ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f3f5f8;
+    --panel: #ffffff;
+    --card: #ffffff;
+    --card-hi: #fffaf2;
+    --border: rgba(20,26,33,0.08);
+    --border-hi: rgba(20,26,33,0.14);
+    --text: #161d24;
+    --text-dim: #5c6b7a;
+    --text-faint: #98a3ae;
+    --track: rgba(20,26,33,0.06);
+    --shadow-sm: 0 1px 2px rgba(30,41,59,0.04), 0 8px 20px -12px rgba(30,41,59,0.10);
+    --shadow-lg: 0 2px 4px rgba(30,41,59,0.05), 0 16px 32px -16px rgba(224,150,20,0.18);
+    --amber: #f5a623;
+    --amber-dim: #7a5719;
+    --teal: #2dd4c4;
+    --blue: #5b8fd9;
+    --orange: #e8743b;
+    --red: #e0525f;
+    --u1: #5b8fd9;
+    --b1_10: #2dd4c4;
+    --b10_20: #f5a623;
+    --b20_30: #e8743b;
+    --o30: #e0525f;
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 9px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 600px at 85% -10%, rgba(245,166,35,0.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, rgba(45,212,196,0.08), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Noto Sans Thai', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .num{font-family:'Space Grotesk','Noto Sans Thai',sans-serif;font-weight:600;letter-spacing:-0.01em;}
+
+  /* ---- Topbar ---- */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;
+    padding:22px 32px;
+    border-bottom:1px solid var(--border);
+    position:sticky;top:0;
+    background:rgba(255,255,255,0.82);
+    backdrop-filter:blur(14px);
+    z-index:40;
+    flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:38px;height:38px;border-radius:10px;
+    background:linear-gradient(155deg, var(--amber), #c67b12);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 14px rgba(245,166,35,0.25);
+    flex-shrink:0;
+  }
+  .brand-mark svg{width:20px;height:20px;stroke:#1a1206;}
+  .brand-text h1{font-size:16px;margin:0;font-weight:600;line-height:1.3;}
+  .brand-text p{margin:0;font-size:12.5px;color:var(--text-dim);}
+  .topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .daterange{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:13px;color:var(--text-dim);
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:8px 14px;border-radius:100px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .daterange svg{width:14px;height:14px;stroke:var(--amber);}
+  .search-box{
+    display:flex;align-items:center;gap:8px;
+    background:var(--panel);border:1px solid var(--border);
+    border-radius:100px;padding:8px 14px;
+    min-width:220px;
+  }
+  .search-box svg{width:15px;height:15px;stroke:var(--text-faint);flex-shrink:0;}
+  .search-box input{
+    background:none;border:none;outline:none;color:var(--text);
+    font-family:'Noto Sans Thai',sans-serif;font-size:13.5px;width:100%;
+  }
+  .search-box input::placeholder{color:var(--text-faint);}
+
+  main{max-width:1360px;margin:0 auto;padding:28px 32px 0;}
+
+  .section-label{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin:36px 0 14px;
+  }
+  .section-label h2{font-size:15px;margin:0;font-weight:600;}
+  .section-label span{font-size:12px;color:var(--text-faint);}
+
+  /* ---- Executive strip (สรุปแบบอ่านไว) ---- */
+  .exec-strip{
+    display:flex;flex-wrap:wrap;background:#fff;border:1px solid var(--border);
+    border-radius:14px;padding:16px 22px;box-shadow:var(--shadow-sm);margin-top:24px;
+  }
+  .exec-stat{flex:1;min-width:150px;padding:0 20px;border-left:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+  .exec-stat:first-child{border-left:none;padding-left:0;}
+  .exec-stat .es-badge{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .exec-stat .es-badge svg{width:17px;height:17px;stroke:#fff;}
+  .exec-stat .el{font-size:11px;color:var(--text-faint);margin-bottom:3px;}
+  .exec-stat .ev{font-size:20px;font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.1;}
+
+  .insight-bar{
+    display:flex;align-items:center;gap:10px;background:#fff6e8;
+    border:1px solid rgba(240,185,85,0.4);border-radius:12px;padding:12px 16px;
+    margin-top:16px;font-size:13px;color:#8a5a10;
+  }
+  .insight-bar svg{width:16px;height:16px;stroke:#c67b12;flex-shrink:0;}
+  .insight-bar b{font-family:'Space Grotesk',sans-serif;}
+
+  /* ---- Insight cards (สรุป/ขนาด/วันเด่น เป็นชุดสีต่างกัน) ---- */
+  .insight-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+  .insight-card{
+    background:#fff;border:1px solid var(--border);border-radius:13px;padding:15px 16px;
+    box-shadow:var(--shadow-sm);
+  }
+  .insight-card .ic-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .insight-card .ic-badge{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .insight-card .ic-badge svg{width:16px;height:16px;stroke:#fff;}
+  .insight-card .ic-label{font-size:11px;color:var(--text-faint);}
+  .insight-card .ic-value{font-size:15px;font-weight:700;line-height:1.35;}
+  .insight-card .ic-value b{font-family:'Space Grotesk',sans-serif;}
+  .insight-card .ic-sub{font-size:11.5px;color:var(--text-faint);margin-top:4px;}
+
+  /* ---- Mini day trend (เบากว่ากราฟแท่งซ้อนเดิม) ---- */
+  .trend-card{position:relative;}
+  .day-trend{display:flex;align-items:flex-end;gap:8px;height:112px;padding-top:4px;}
+  .day-trend .dt-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;height:100%;justify-content:flex-end;}
+  .day-trend.scrollable{overflow-x:auto;justify-content:flex-start;padding-bottom:2px;}
+  .day-trend.scrollable .dt-col{flex:0 0 auto;width:34px;}
+  .day-trend.scrollable::-webkit-scrollbar{height:6px;}
+  .day-trend.scrollable::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:4px;}
+  .day-trend.daily-fit .dt-val{font-size:10px;}
+  .day-trend.daily-fit .dt-label{font-size:9.5px;}
+  .day-trend.daily-fit .dt-bar{max-width:22px;border-radius:5px 5px 2px 2px;}
+  .day-trend .dt-val{font-size:11px;font-family:'Space Grotesk',sans-serif;color:var(--text-faint);transition:color .12s ease;}
+  .day-trend .dt-col.max .dt-val{color:var(--text);font-weight:700;font-size:12px;}
+  .day-trend .dt-bar-wrap{width:100%;height:62px;display:flex;align-items:flex-end;border-bottom:1.5px solid var(--border);}
+  .day-trend .dt-bar{
+    width:100%;max-width:26px;margin:0 auto;border-radius:7px 7px 3px 3px;
+    background:linear-gradient(180deg, rgba(245,166,35,0.55), rgba(245,166,35,0.28));
+    transition:all .15s ease;
+  }
+  .day-trend .dt-col.max .dt-bar{
+    background:linear-gradient(180deg, #ffbe4d, var(--amber));
+    box-shadow:0 6px 14px -6px rgba(245,166,35,0.55);
+  }
+  .day-trend .dt-col:hover .dt-bar{filter:brightness(1.08);transform:scaleX(1.12);}
+  .day-trend .dt-label{font-size:10.5px;color:var(--text-faint);line-height:1.4;text-align:center;}
+  .day-trend .dt-col.max .dt-label{color:var(--text);font-weight:600;}
+  .trend-empty{display:flex;align-items:center;justify-content:center;height:100%;text-align:center;font-size:12px;color:var(--text-faint);line-height:1.6;}
+
+  /* ---- Size distribution mini bar ---- */
+  .size-dist-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin-top:8px;}
+  .size-dist-bar span{height:100%;}
+  .size-dist-legend{display:flex;flex-direction:column;gap:7px;margin-top:14px;}
+  .size-dist-legend .sd-row{display:flex;align-items:center;gap:8px;font-size:12px;}
+  .size-dist-legend .sd-dot{width:8px;height:8px;border-radius:2.5px;flex-shrink:0;}
+  .size-dist-legend .sd-label{color:var(--text-dim);flex:1;}
+  .size-dist-legend .sd-pct{font-family:'Space Grotesk',sans-serif;font-weight:600;}
+
+  /* ---- Sort toggle for rank list ---- */
+  .sort-toggle{display:flex;gap:6px;background:var(--track);border-radius:9px;padding:3px;}
+  .sort-toggle button{
+    border:none;background:none;font-family:inherit;font-size:12px;padding:5px 11px;
+    border-radius:7px;cursor:pointer;color:var(--text-dim);
+  }
+  .sort-toggle button.active{background:#fff;color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(30,41,59,0.08);}
+
+  /* ---- Ranked bar list (สแกนไว กว่ากริด) ---- */
+  .rank-list{display:flex;flex-direction:column;gap:8px;}
+  .rank-row{
+    position:relative;display:flex;align-items:center;gap:14px;
+    padding:12px 16px;border-radius:11px;background:#fff;border:1px solid var(--border);
+    cursor:pointer;overflow:hidden;transition:box-shadow .12s ease;
+  }
+  .rank-row:hover{box-shadow:0 4px 14px -8px rgba(30,41,59,0.2);}
+  .rank-row .bar-bg{
+    position:absolute;left:0;top:0;bottom:0;z-index:0;
+    background:linear-gradient(90deg, rgba(245,166,35,0.16), rgba(245,166,35,0.02));
+  }
+  .rank-row .r-num{
+    position:relative;z-index:1;width:26px;height:26px;border-radius:8px;background:var(--track);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    font-family:'Space Grotesk',sans-serif;font-size:12px;color:var(--text-dim);
+  }
+  .rank-row.top .r-num{background:var(--amber);color:#fff;}
+  .rank-row .r-name{position:relative;z-index:1;font-weight:600;font-size:13.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rank-row .r-mix{position:relative;z-index:1;display:flex;height:5px;width:84px;border-radius:3px;overflow:hidden;background:var(--track);flex-shrink:0;}
+  .rank-row .r-mix span{height:100%;}
+  .rank-row .r-nums{position:relative;z-index:1;text-align:right;flex-shrink:0;min-width:108px;}
+  .rank-row .r-count{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;}
+  .rank-row .r-cost{font-size:11px;color:var(--text-faint);}
+
+  .toggle-all-btn{
+    font-size:12.5px;color:var(--amber);background:none;border:none;cursor:pointer;
+    font-family:inherit;font-weight:600;display:flex;align-items:center;gap:4px;padding:0;
+  }
+  .toggle-all-btn svg{width:13px;height:13px;stroke:currentColor;transition:transform .15s ease;}
+  .toggle-all-btn.open svg{transform:rotate(180deg);}
+  .full-list-section{display:none;}
+  .full-list-section.open{display:block;}
+
+  /* ---- Bento grid ---- */
+  .bento{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:14px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:var(--shadow-sm);
+  }
+  .card-hero{
+    grid-column:span 3; grid-row:span 2;
+    border-radius:var(--radius-lg);
+    background:linear-gradient(160deg, var(--card-hi), var(--card) 70%);
+    display:flex;flex-direction:column;justify-content:space-between;
+    border:1px solid rgba(245,166,35,0.25);
+    box-shadow:var(--shadow-lg);
+  }
+  .card-cost{grid-column:span 3;}
+  .card-weight{grid-column:span 2;}
+  .card-dc{grid-column:span 2;}
+  .card-donut{grid-column:span 2; grid-row:span 2;}
+  .card-daychart{grid-column:span 6;}
+  .card-list{grid-column:span 6;}
+
+  .card-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:11.5px;color:var(--text-dim);
+    text-transform:none;
+    margin-bottom:2px;
+  }
+  .card-tag svg{width:14px;height:14px;stroke:var(--text-faint);}
+  .period-sub{font-size:10.5px;color:var(--text-faint);margin-bottom:10px;}
+  .card-icon-badge{
+    width:30px;height:30px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .card-icon-badge svg{width:16px;height:16px;}
+
+  .stat-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .stat-value{font-size:15px;font-weight:600;}
+  .stat-value.big{font-size:42px;line-height:1;}
+  .stat-value.mid{font-size:30px;line-height:1;}
+  .stat-sub{font-size:12.5px;color:var(--text-dim);margin-top:6px;}
+  .trend-up{color:var(--teal);}
+  .trend-down{color:var(--red);}
+
+  #sparkline{width:100%;height:100%;}
+  .spark-wrap{position:relative;width:100%;height:58px;margin-top:10px;flex-shrink:0;}
+
+  .mini-bars{display:flex;align-items:flex-end;gap:4px;height:44px;margin-top:12px;}
+  .mini-bars .bar{flex:1;background:var(--amber);border-radius:3px 3px 0 0;opacity:0.85;}
+
+  .bucket-legend{margin-top:6px;display:flex;flex-direction:column;gap:9px;}
+  .bucket-row{display:flex;align-items:center;gap:9px;font-size:12.5px;}
+  .bucket-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
+  .bucket-row .blabel{color:var(--text-dim);flex:1;}
+  .bucket-row .bcount{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text);}
+
+  .chart-wrap{position:relative;height:230px;margin-top:6px;}
+  .donut-wrap{position:relative;height:180px;margin-top:8px;}
+  .donut-center{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    text-align:center;pointer-events:none;
+  }
+  .donut-center .n{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;}
+  .donut-center .l{font-size:10.5px;color:var(--text-faint);}
+
+  /* ---- DC table ---- */
+  .dc-table{width:100%;border-collapse:collapse;}
+  .dc-table thead th{
+    text-align:left;font-size:11.5px;color:var(--text-faint);
+    font-weight:500;padding:0 12px 10px;
+    border-bottom:1px solid var(--border);
+  }
+  .dc-table thead th.num-col{text-align:right;}
+  .dc-table tbody tr{
+    cursor:pointer;transition:background 0.12s ease;
+    border-bottom:1px solid var(--border);
+  }
+  .dc-table tbody tr:hover{background:rgba(255,255,255,0.03);}
+  .dc-table tbody tr:last-child{border-bottom:none;}
+  .dc-table td{padding:11px 12px;font-size:13px;vertical-align:middle;}
+  .dc-rank{
+    width:22px;height:22px;border-radius:6px;background:var(--track);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--text-faint);
+  }
+  .dc-name-cell{display:flex;align-items:center;gap:10px;}
+  .dc-name{font-weight:500;}
+  .dc-code{font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--text-faint);}
+  .num-col{text-align:right;font-family:'Space Grotesk',sans-serif;}
+  .bar-cell{width:140px;}
+  .bar-track{height:6px;border-radius:4px;background:var(--track);overflow:hidden;}
+  .bar-fill{height:100%;background:linear-gradient(90deg, var(--amber), var(--orange));border-radius:4px;}
+  .table-scroll{max-height:520px;overflow-y:auto;}
+  .table-scroll::-webkit-scrollbar{width:6px;}
+  .table-scroll::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:4px;}
+
+  /* ---- DC tile grid (dense) ---- */
+  .tile-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(132px,1fr));
+    gap:10px;
+    max-height:560px;overflow-y:auto;
+    padding-right:2px;
+  }
+  .tile-grid::-webkit-scrollbar{width:6px;}
+  .tile-grid::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:4px;}
+  .dc-tile{
+    border-radius:11px;padding:11px 12px 10px;
+    cursor:pointer;transition:transform 0.12s ease, box-shadow 0.12s ease;
+    position:relative;
+    background:#fff;border:1px solid var(--border);
+  }
+  .dc-tile:hover{transform:translateY(-2px);box-shadow:0 6px 16px -8px rgba(30,41,59,0.18);}
+  .dc-tile.tier-high{background:#fbeceb;border-color:rgba(224,82,95,0.35);}
+  .dc-tile.tier-mid{background:#fff6e8;border-color:rgba(240,185,85,0.4);}
+  .dc-tile .t-rank{position:absolute;top:8px;right:10px;font-size:9.5px;color:var(--text-faint);font-family:'Space Grotesk',sans-serif;}
+  .dc-tile .t-count{font-size:19px;font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.1;}
+  .dc-tile.tier-high .t-count{color:var(--o30);}
+  .dc-tile.tier-mid .t-count{color:#95661a;}
+  .dc-tile .t-name{
+    font-size:11px;color:var(--text-dim);margin-top:3px;line-height:1.3;min-height:28px;
+    overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  }
+  .dc-tile .t-cost{font-size:10.5px;color:var(--text-faint);font-family:'Space Grotesk',sans-serif;margin-top:6px;}
+  .dc-tile .t-mix{display:flex;height:4px;border-radius:3px;overflow:hidden;background:var(--track);margin-top:7px;}
+  .dc-tile .t-mix span{height:100%;}
+
+  /* ---- Detail drawer ---- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(6,10,15,0.6);
+    backdrop-filter:blur(2px);
+    opacity:0;pointer-events:none;transition:opacity 0.2s ease;
+    z-index:60;
+  }
+  .overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;
+    width:min(1180px, 96vw);
+    background:var(--panel);
+    border-left:1px solid var(--border-hi);
+    box-shadow:-24px 0 48px -20px rgba(30,41,59,0.18);
+    transform:translateX(100%);
+    transition:transform 0.28s cubic-bezier(.2,.8,.2,1);
+    z-index:61;
+    overflow-y:auto;
+    padding:26px 26px 60px;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-close{
+    position:absolute;top:22px;right:22px;
+    width:32px;height:32px;border-radius:8px;
+    background:var(--track);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .drawer-close svg{width:15px;height:15px;stroke:var(--text-dim);}
+  .drawer h3{font-size:19px;margin:0 0 2px;padding-right:50px;}
+  .drawer .drawer-code{font-family:'Space Grotesk',sans-serif;color:var(--text-faint);font-size:12.5px;}
+  .drawer-stats{display:flex;gap:10px;margin:20px 0 22px;}
+  .drawer-stat{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 14px;}
+  .drawer-stat .l{font-size:11px;color:var(--text-faint);margin-bottom:5px;}
+  .drawer-stat .v{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;}
+
+  .matrix-table{width:100%;border-collapse:collapse;margin-top:4px;font-size:11.5px;}
+  .matrix-scroll{overflow-x:auto;margin-top:4px;}
+  .matrix-scroll::-webkit-scrollbar{height:6px;}
+  .matrix-scroll::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:4px;}
+  .matrix-table th{min-width:34px;}
+  .matrix-table th:first-child, .matrix-table td:first-child{
+    position:sticky;left:0;background:var(--panel);min-width:92px;z-index:1;
+  }
+  .matrix-table th{
+    font-weight:500;color:var(--text-faint);text-align:center;
+    padding:6px 4px;font-size:11px;
+  }
+  .matrix-table th:first-child{text-align:left;}
+  .matrix-table td{text-align:center;padding:6px 3px;font-family:'Space Grotesk',sans-serif;}
+  .matrix-table td:first-child{text-align:left;font-family:'Noto Sans Thai',sans-serif;color:var(--text-dim);font-size:12.5px;}
+  .matrix-table tbody tr{border-top:1px solid var(--border);}
+  .matrix-table tbody tr:last-child{font-weight:700;border-top:1px solid var(--border-hi);}
+  .cell-heat{border-radius:6px;display:inline-block;min-width:34px;padding:3px 0;}
+
+  .drawer-chart{height:190px;margin-top:20px;}
+
+  footer{
+    max-width:1360px;margin:50px auto 0;padding:20px 32px 30px;
+    color:var(--text-faint);font-size:12px;
+    border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+
+  @media (max-width:920px){
+    .bento{grid-template-columns:repeat(2,1fr);}
+    .card-hero{grid-column:span 2;grid-row:auto;}
+    .card-cost,.card-weight,.card-dc,.card-donut,.card-daychart,.card-list{grid-column:span 2;}
+    main{padding:20px 16px 0;}
+    .topbar{padding:16px;}
+    .bar-cell{width:70px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="13" height="10"/><path d="M16 10h3.5l2.5 3v4h-6"/><circle cx="7.5" cy="18.5" r="1.8"/><circle cx="17.5" cy="18.5" r="1.8"/></svg>
+    </div>
+    <div class="brand-text">
+      <h1>สรุปสินค้าฝากส่งต่อ</h1>
+      <p>NIM Express · RA Manifest by DC ต้นทาง</p>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <div class="exec-strip" id="execStrip"></div>
+  <div class="insight-cards" id="insightCards"></div>
+  <div class="insight-cards" id="metricCards" style="margin-top:12px;"></div>
+
+  <div class="section-label" style="margin-top:30px;">
+    <h2>แนวโน้มรายวัน &amp; สัดส่วนตามขนาด</h2>
+    <span>วันที่มีชิ้นเข้าเยอะที่สุดเน้นสี</span>
+  </div>
+  <div class="bento">
+    <div class="card trend-card" style="grid-column:span 3;">
+      <div class="card-tag" style="margin-bottom:1px;">ตามวันในสัปดาห์</div>
+      <div class="period-sub" id="periodSub1"></div>
+      <div class="day-trend" id="dayTrendWeek"></div>
+    </div>
+    <div class="card" style="grid-column:span 3;">
+      <div class="card-tag" style="margin-bottom:1px;">สัดส่วนตามช่วงน้ำหนัก</div>
+      <div class="period-sub" id="periodSub2"></div>
+      <div class="size-dist-bar" id="sizeDistBar"></div>
+      <div class="size-dist-legend" id="sizeDistLegend"></div>
+    </div>
+    <div class="card trend-card" style="grid-column:span 6;">
+      <div class="card-tag" style="margin-bottom:1px;">รายวัน (ตามวันที่จริง) — แสดงทุกวันที่มีข้อมูล</div>
+      <div class="period-sub" id="periodSub3"></div>
+      <div class="day-trend" id="dayTrendDaily"></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:30px;">
+    <h2>สาขาที่มีปริมาณสูงสุด</h2>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span id="rankSubtitle"></span>
+      <div class="sort-toggle" id="rankSortToggle">
+        <button data-sort="count" class="active">ตามจำนวน</button>
+        <button data-sort="cost">ตามค่าขนส่ง</button>
+      </div>
+    </div>
+  </div>
+  <div class="rank-list" id="rankList"></div>
+
+  <div class="section-label" style="margin-top:30px;align-items:center;">
+    <h2>สาขาทั้งหมด</h2>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="dcSearch" placeholder="ค้นหา DC ต้นทาง...">
+      </div>
+      <button class="toggle-all-btn" id="toggleAllBtn">
+        <span id="toggleAllLabel">แสดงทั้งหมด</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="full-list-section" id="fullListSection">
+    <div class="bento">
+      <div class="card card-list">
+        <div id="dcTileGrid" class="tile-grid"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>ข้อมูลตัวอย่างจากไฟล์ RA_RA1_01-19_09 · เชื่อมต่อ Google Sheet ผ่าน Apps Script เพื่อใช้ข้อมูลจริง</span>
+  <span id="genTime"></span>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-close" id="drawerClose">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </div>
+  <div class="card-tag" id="drawerTag">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/></svg>
+    รายละเอียด DC ต้นทาง
+  </div>
+  <h3 id="drawerName">–</h3>
+  <div class="drawer-code" id="drawerCode">–</div>
+
+  <div class="drawer-stats">
+    <div class="drawer-stat">
+      <div class="l">จำนวนชิ้น</div>
+      <div class="v num" id="drawerCount">–</div>
+    </div>
+    <div class="drawer-stat">
+      <div class="l">ค่าขนส่งรวม</div>
+      <div class="v num" id="drawerCost">–</div>
+    </div>
+  </div>
+
+  <div class="chart-wrap drawer-chart">
+    <canvas id="drawerChart"></canvas>
+  </div>
+
+  <div class="matrix-scroll"><table class="matrix-table" id="drawerMatrix"></table></div>
+
+</div>
+
+<script>
+/* ============================================================
+   ข้อมูลตัวอย่าง (DEMO DATA)
+   -----------------------------------------------------------
+   เมื่อเชื่อมต่อ Google Apps Script backend จริง ให้แทนที่
+   บล็อคนี้ด้วยการ fetch แบบ JSONP จาก API_URL แล้ว render
+   ด้วยฟังก์ชันชุดเดิมด้านล่าง (render...() ทั้งหมดรับ DATA
+   เป็น object เดียวกับโครงสร้างนี้)
+   ============================================================ */
+const API_URL = "https://script.google.com/macros/s/AKfycby3cfuGBpzT93znUS-9nxF3BFs36mDIUNCp3sBHZ470zWlbQhWm4UewxbpKieNX1vyMiw/exec";
+const USE_DEMO_DATA = false;
+
+const DEMO_DATA = {"meta":{"date_from":"2026-09-01","date_to":"2026-09-19","total_count":2140,"total_cost":309159.5,"total_weight":28633.4,"dc_count":61},"bucket_summary":[{"bucket":"u1","count":183,"cost":15020.0},{"bucket":"b1_10","count":575,"cost":56706.0},{"bucket":"b10_20","count":988,"cost":118067.5},{"bucket":"b20_30","count":228,"cost":55952.0},{"bucket":"o30","count":166,"cost":63414.0}],"day_summary":[{"day":"จันทร์","count":317,"cost":51583.5},{"day":"อังคาร","count":319,"cost":50741.0},{"day":"พุธ","count":378,"cost":53433.0},{"day":"พฤหัสบดี","count":395,"cost":63075.5},{"day":"ศุกร์","count":551,"cost":56022.0},{"day":"เสาร์","count":161,"cost":31919.5},{"day":"อาทิตย์","count":19,"cost":2385.0}],"day_bucket_matrix":{"จันทร์":{"u1":13,"b1_10":139,"b10_20":91,"b20_30":51,"o30":23},"อังคาร":{"u1":44,"b1_10":80,"b10_20":130,"b20_30":40,"o30":25},"พุธ":{"u1":25,"b1_10":99,"b10_20":186,"b20_30":36,"o30":32},"พฤหัสบดี":{"u1":29,"b1_10":97,"b10_20":186,"b20_30":43,"o30":40},"ศุกร์":{"u1":56,"b1_10":107,"b10_20":334,"b20_30":27,"o30":27},"เสาร์":{"u1":14,"b1_10":46,"b10_20":54,"b20_30":28,"o30":19},"อาทิตย์":{"u1":2,"b1_10":7,"b10_20":7,"b20_30":3,"o30":0}},"dates":[{"date":"2026-09-01","dow_short":"อ."},{"date":"2026-09-02","dow_short":"พ."},{"date":"2026-09-03","dow_short":"พฤ."},{"date":"2026-09-04","dow_short":"ศ."},{"date":"2026-09-05","dow_short":"ส."},{"date":"2026-09-06","dow_short":"อา."},{"date":"2026-09-07","dow_short":"จ."},{"date":"2026-09-08","dow_short":"อ."},{"date":"2026-09-09","dow_short":"พ."},{"date":"2026-09-10","dow_short":"พฤ."},{"date":"2026-09-11","dow_short":"ศ."},{"date":"2026-09-12","dow_short":"ส."},{"date":"2026-09-13","dow_short":"อา."},{"date":"2026-09-14","dow_short":"จ."},{"date":"2026-09-15","dow_short":"อ."},{"date":"2026-09-16","dow_short":"พ."},{"date":"2026-09-17","dow_short":"พฤ."},{"date":"2026-09-18","dow_short":"ศ."},{"date":"2026-09-19","dow_short":"ส."}],"dc_list":[{"code":691,"name":"CDC บางนา","count":880,"cost":81850.0},{"code":150,"name":"DC เชียงใหม่","count":159,"cost":21213.5},{"code":631,"name":"DC อยุธยา","count":145,"cost":35265.0},{"code":610,"name":"DC พุทธมณฑลสาย 3","count":120,"cost":20940.0},{"code":621,"name":"DC รังสิต","count":98,"cost":19665.0},{"code":157,"name":"DC เชียงราย","count":41,"cost":6645.0},{"code":154,"name":"DC แพร่","count":39,"cost":6670.0},{"code":240,"name":"DC ขอนแก่น","count":37,"cost":5825.0},{"code":320,"name":"DC ชลบุรี","count":31,"cost":5675.0},{"code":171,"name":"DC แม่สาย","count":29,"cost":4550.0},{"code":481,"name":"DC นครศรีธรรมราช","count":28,"cost":4910.0},{"code":673,"name":"DC นครปฐม","count":28,"cost":7395.0},{"code":151,"name":"DC ลำพูน","count":26,"cost":5435.0},{"code":672,"name":"DC สุพรรณบุรี","count":26,"cost":5930.0},{"code":323,"name":"DC พัทยา","count":24,"cost":4775.0},{"code":674,"name":"DC สมุทรสาคร","count":24,"cost":4555.0},{"code":230,"name":"DC โคราช","count":23,"cost":5980.0},{"code":232,"name":"DC สุรินทร์","count":22,"cost":5035.0},{"code":484,"name":"DC สุราษฎร์","count":22,"cost":3035.0},{"code":322,"name":"DC จันทบุรี","count":20,"cost":4000.0},{"code":476,"name":"DC ชะอำ","count":20,"cost":2565.0},{"code":618,"name":"DC สระบุรี","count":17,"cost":2500.0},{"code":241,"name":"DC อุดรธานี","count":17,"cost":2725.0},{"code":165,"name":"DC พิษณุโลก","count":15,"cost":1840.0},{"code":231,"name":"DC บุรีรัมย์","count":15,"cost":1925.0},{"code":160,"name":"DC นครสวรรค์","count":15,"cost":2681.0},{"code":152,"name":"DC ลำปาง","count":14,"cost":2240.0},{"code":164,"name":"DC สุโขทัย","count":12,"cost":1320.0},{"code":167,"name":"DC เพชรบูรณ์","count":12,"cost":1615.0},{"code":325,"name":"DC ปราจีนบุรี","count":12,"cost":2075.0},{"code":670,"name":"DC ราชบุรี","count":12,"cost":2320.0},{"code":671,"name":"DC กาญจนบุรี","count":11,"cost":3425.0},{"code":156,"name":"DC พะเยา","count":11,"cost":2620.0},{"code":247,"name":"DC สกลนคร","count":10,"cost":945.0},{"code":234,"name":"DC อุบลราชธานี","count":9,"cost":1130.0},{"code":321,"name":"DC ระยอง","count":9,"cost":1415.0},{"code":486,"name":"DC ชุมพร","count":9,"cost":1430.0},{"code":490,"name":"DC หาดใหญ่","count":8,"cost":1990.0},{"code":236,"name":"DC ชัยภูมิ","count":7,"cost":1060.0},{"code":163,"name":"DC ตาก","count":6,"cost":605.0},{"code":245,"name":"DC ร้อยเอ็ด","count":6,"cost":865.0},{"code":158,"name":"DC แม่ฮ่องสอน","count":6,"cost":585.0},{"code":249,"name":"DC มุกดาหาร","count":6,"cost":430.0},{"code":235,"name":"DC ยโสธร","count":6,"cost":1290.0},{"code":243,"name":"DC หนองคาย","count":5,"cost":375.0},{"code":246,"name":"DC กาฬสินธุ์","count":5,"cost":1205.0},{"code":493,"name":"DC พัทลุง","count":5,"cost":545.0},{"code":482,"name":"DC พังงา","count":4,"cost":330.0},{"code":159,"name":"DC ฝาง","count":4,"cost":1055.0},{"code":170,"name":"DC ชัยนาท","count":4,"cost":700.0},{"code":166,"name":"DC พิจิตร","count":4,"cost":470.0},{"code":233,"name":"DC ศรีสะเกษ","count":3,"cost":790.0},{"code":690,"name":"DC พระราม 9","count":3,"cost":495.0},{"code":483,"name":"DC ภูเก็ต","count":3,"cost":485.0},{"code":155,"name":"DC น่าน","count":2,"cost":210.0},{"code":153,"name":"DC อุตรดิตถ์","count":2,"cost":180.0},{"code":251,"name":"DC ปากช่อง","count":2,"cost":385.0},{"code":487,"name":"DC กระบี่","count":2,"cost":105.0},{"code":624,"name":"DC ฉะเชิงเทรา","count":2,"cost":350.0},{"code":615,"name":"DC ลพบุรี","count":2,"cost":500.0},{"code":480,"name":"DC ทุ่งสง","count":1,"cost":35.0}],"dc_detail":{"150":{"name":"DC เชียงใหม่","dates":["2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":2,"cost":95.0},"b1_10":{"count":10,"cost":625.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":3,"cost":510.0},"o30":{"count":1,"cost":435.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":2,"cost":335.0},"b20_30":{"count":3,"cost":825.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":375.0},"b10_20":{"count":6,"cost":660.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":1,"cost":72.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":2,"cost":850.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":7,"cost":408.0},"b10_20":{"count":1,"cost":76.5},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":485.0},"b10_20":{"count":14,"cost":1255.0},"b20_30":{"count":2,"cost":610.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":255.0},"b10_20":{"count":3,"cost":485.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":5,"cost":385.0},"b10_20":{"count":1,"cost":165.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":118.0},"b10_20":{"count":3,"cost":585.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":145.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-13":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":3,"cost":420.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":17,"cost":1560.0},"b10_20":{"count":4,"cost":550.0},"b20_30":{"count":3,"cost":550.0},"o30":{"count":2,"cost":790.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":5,"cost":400.0},"b10_20":{"count":12,"cost":2220.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":225.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":5,"cost":448.0},"b10_20":{"count":1,"cost":135.0},"b20_30":{"count":1,"cost":355.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":1,"cost":35.0},"b1_10":{"count":4,"cost":734.5},"b10_20":{"count":2,"cost":470.0},"b20_30":{"count":2,"cost":332.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":70.0},"b10_20":{"count":5,"cost":620.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":475.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":289.5},"b10_20":{"count":1,"cost":100.0},"b20_30":{"count":2,"cost":360.0},"o30":{"count":0,"cost":0.0}}},"total_count":159,"total_cost":21213.5},"151":{"name":"DC ลำพูน","dates":["2026-09-01","2026-09-02","2026-09-04","2026-09-07","2026-09-10","2026-09-11","2026-09-14","2026-09-16","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-01":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":125.0},"b20_30":{"count":1,"cost":160.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":140.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":135.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":12,"cost":3350.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":275.0},"o30":{"count":2,"cost":500.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":245.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":270.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":26,"total_cost":5435.0},"154":{"name":"DC แพร่","dates":["2026-09-01","2026-09-02","2026-09-03","2026-09-05","2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":190.0},"b10_20":{"count":1,"cost":100.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":80.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":120.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":2,"cost":485.0}},"2026-09-05":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":9,"cost":2295.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":4,"cost":530.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":220.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":100.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":155.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":2,"cost":385.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":130.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":275.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":135.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":105.0},"b20_30":{"count":1,"cost":260.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":4,"cost":470.0},"b20_30":{"count":2,"cost":305.0},"o30":{"count":0,"cost":0.0}}},"total_count":39,"total_cost":6670.0},"165":{"name":"DC พิษณุโลก","dates":["2026-09-01","2026-09-06","2026-09-08","2026-09-09","2026-09-11","2026-09-15","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":350.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-06":{"u1":{"count":1,"cost":55.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":115.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":80.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":160.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":1,"cost":55.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":295.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":5,"cost":590.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":15,"total_cost":1840.0},"232":{"name":"DC สุรินทร์","dates":["2026-09-01","2026-09-02","2026-09-07","2026-09-08","2026-09-10","2026-09-14","2026-09-16","2026-09-17","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":165.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":170.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":385.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":130.0},"b20_30":{"count":2,"cost":330.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":305.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":5,"cost":850.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":1,"cost":155.0},"b20_30":{"count":2,"cost":530.0},"o30":{"count":2,"cost":670.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":375.0},"b10_20":{"count":1,"cost":595.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":22,"total_cost":5035.0},"240":{"name":"DC ขอนแก่น","dates":["2026-09-01","2026-09-03","2026-09-04","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-12","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":110.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":1,"cost":200.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":410.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":110.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":5,"cost":770.0},"b1_10":{"count":1,"cost":45.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":1,"cost":300.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":1,"cost":45.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":445.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":160.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":2,"cost":240.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":200.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":1,"cost":150.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":2,"cost":270.0},"b1_10":{"count":1,"cost":155.0},"b10_20":{"count":4,"cost":475.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":1,"cost":120.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":445.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":5,"cost":820.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":37,"total_cost":5825.0},"243":{"name":"DC หนองคาย","dates":["2026-09-01","2026-09-04","2026-09-18"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":170.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":140.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":5,"total_cost":375.0},"246":{"name":"DC กาฬสินธุ์","dates":["2026-09-01","2026-09-07","2026-09-11","2026-09-15","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":135.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":615.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":265.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":135.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":5,"total_cost":1205.0},"247":{"name":"DC สกลนคร","dates":["2026-09-01","2026-09-03","2026-09-06","2026-09-11","2026-09-13","2026-09-15"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":100.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":125.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-06":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":115.0},"b10_20":{"count":1,"cost":185.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":115.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-13":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":105.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":160.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":10,"total_cost":945.0},"320":{"name":"DC ชลบุรี","dates":["2026-09-01","2026-09-02","2026-09-03","2026-09-08","2026-09-10","2026-09-12","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":4,"cost":1060.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":3,"cost":345.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":2,"cost":740.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":155.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":165.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":165.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":2,"cost":235.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":1,"cost":45.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":365.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":185.0},"b10_20":{"count":1,"cost":185.0},"b20_30":{"count":1,"cost":245.0},"o30":{"count":3,"cost":1065.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":2,"cost":540.0},"o30":{"count":0,"cost":0.0}}},"total_count":31,"total_cost":5675.0},"322":{"name":"DC จันทบุรี","dates":["2026-09-01","2026-09-02","2026-09-07","2026-09-09","2026-09-10","2026-09-12","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":600.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":110.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":400.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":145.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":2,"cost":800.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":1,"cost":135.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":2,"cost":240.0},"b20_30":{"count":2,"cost":510.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":2,"cost":270.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":175.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":265.0},"o30":{"count":0,"cost":0.0}}},"total_count":20,"total_cost":4000.0},"481":{"name":"DC นครศรีธรรมราช","dates":["2026-09-01","2026-09-04","2026-09-06","2026-09-08","2026-09-10","2026-09-14","2026-09-15","2026-09-16","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":7,"cost":865.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-06":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":345.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":4,"cost":2450.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":4,"cost":475.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":115.0},"b10_20":{"count":2,"cost":235.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":150.0},"o30":{"count":0,"cost":0.0}}},"total_count":28,"total_cost":4910.0},"482":{"name":"DC พังงา","dates":["2026-09-01","2026-09-10","2026-09-16","2026-09-17"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":80.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":105.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":80.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":4,"total_cost":330.0},"484":{"name":"DC สุราษฎร์","dates":["2026-09-01","2026-09-02","2026-09-07","2026-09-14","2026-09-15","2026-09-16","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":3,"cost":510.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":165.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":485.0},"b10_20":{"count":1,"cost":110.0},"b20_30":{"count":1,"cost":160.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":110.0},"b10_20":{"count":2,"cost":265.0},"b20_30":{"count":2,"cost":500.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":180.0},"b20_30":{"count":1,"cost":255.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":165.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":22,"total_cost":3035.0},"610":{"name":"DC พุทธมณฑลสาย 3","dates":["2026-09-01","2026-09-02","2026-09-04","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":1,"cost":60.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":2,"cost":400.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":115.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":485.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":6,"cost":860.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":2,"cost":710.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":4,"cost":200.0},"b1_10":{"count":3,"cost":455.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":3,"cost":1015.0}},"2026-09-10":{"u1":{"count":1,"cost":125.0},"b1_10":{"count":2,"cost":210.0},"b10_20":{"count":2,"cost":290.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":1,"cost":80.0},"b1_10":{"count":2,"cost":125.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":5,"cost":390.0},"b1_10":{"count":9,"cost":1805.0},"b10_20":{"count":2,"cost":350.0},"b20_30":{"count":4,"cost":1100.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":2,"cost":90.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":3,"cost":485.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":2,"cost":80.0},"b1_10":{"count":7,"cost":710.0},"b10_20":{"count":9,"cost":1555.0},"b20_30":{"count":2,"cost":430.0},"o30":{"count":1,"cost":455.0}},"2026-09-17":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":2,"cost":190.0},"b10_20":{"count":9,"cost":1905.0},"b20_30":{"count":4,"cost":890.0},"o30":{"count":1,"cost":315.0}},"2026-09-18":{"u1":{"count":1,"cost":50.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":2,"cost":290.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":3,"cost":1485.0}},"2026-09-19":{"u1":{"count":2,"cost":85.0},"b1_10":{"count":3,"cost":345.0},"b10_20":{"count":6,"cost":1290.0},"b20_30":{"count":2,"cost":510.0},"o30":{"count":1,"cost":425.0}}},"total_count":120,"total_cost":20940.0},"621":{"name":"DC รังสิต","dates":["2026-09-01","2026-09-02","2026-09-03","2026-09-06","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":1,"cost":90.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":2,"cost":200.0},"b1_10":{"count":2,"cost":200.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":225.0},"o30":{"count":0,"cost":0.0}},"2026-09-06":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":3,"cost":215.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":1,"cost":255.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":1,"cost":90.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":2,"cost":400.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":215.0},"b10_20":{"count":2,"cost":510.0},"b20_30":{"count":2,"cost":480.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":265.0},"b10_20":{"count":3,"cost":505.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":245.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":660.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-13":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":3,"cost":180.0},"b10_20":{"count":4,"cost":640.0},"b20_30":{"count":3,"cost":825.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":155.0},"b10_20":{"count":3,"cost":455.0},"b20_30":{"count":14,"cost":3810.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":400.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":3,"cost":735.0},"o30":{"count":2,"cost":650.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":220.0},"b10_20":{"count":6,"cost":1740.0},"b20_30":{"count":2,"cost":500.0},"o30":{"count":2,"cost":990.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":5,"cost":595.0},"b10_20":{"count":1,"cost":135.0},"b20_30":{"count":2,"cost":800.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":1,"cost":85.0},"b1_10":{"count":5,"cost":350.0},"b10_20":{"count":2,"cost":290.0},"b20_30":{"count":2,"cost":450.0},"o30":{"count":1,"cost":385.0}}},"total_count":98,"total_cost":19665.0},"674":{"name":"DC สมุทรสาคร","dates":["2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-07","2026-09-14","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-01":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":405.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":335.0},"o30":{"count":1,"cost":365.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":115.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":45.0},"b10_20":{"count":1,"cost":115.0},"b20_30":{"count":5,"cost":1175.0},"o30":{"count":1,"cost":405.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":170.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":230.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":2,"cost":660.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":350.0},"b20_30":{"count":1,"cost":185.0},"o30":{"count":0,"cost":0.0}}},"total_count":24,"total_cost":4555.0},"691":{"name":"CDC บางนา","dates":["2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-05","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-01":{"u1":{"count":14,"cost":1296.0},"b1_10":{"count":2,"cost":94.0},"b10_20":{"count":9,"cost":1008.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-02":{"u1":{"count":2,"cost":140.0},"b1_10":{"count":7,"cost":378.0},"b10_20":{"count":8,"cost":971.0},"b20_30":{"count":1,"cost":305.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":8,"cost":502.0},"b1_10":{"count":5,"cost":284.0},"b10_20":{"count":10,"cost":1132.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":2,"cost":1010.0}},"2026-09-04":{"u1":{"count":3,"cost":405.0},"b1_10":{"count":20,"cost":1472.0},"b10_20":{"count":90,"cost":5357.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-05":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":325.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":2,"cost":290.0},"b1_10":{"count":24,"cost":1705.0},"b10_20":{"count":16,"cost":1034.0},"b20_30":{"count":14,"cost":3610.0},"o30":{"count":1,"cost":315.0}},"2026-09-08":{"u1":{"count":5,"cost":775.0},"b1_10":{"count":6,"cost":531.0},"b10_20":{"count":5,"cost":548.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":365.0}},"2026-09-09":{"u1":{"count":4,"cost":404.0},"b1_10":{"count":8,"cost":453.0},"b10_20":{"count":42,"cost":4195.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":2,"cost":410.0},"b1_10":{"count":7,"cost":658.0},"b10_20":{"count":45,"cost":3973.0},"b20_30":{"count":3,"cost":582.0},"o30":{"count":1,"cost":345.0}},"2026-09-11":{"u1":{"count":28,"cost":1770.0},"b1_10":{"count":10,"cost":753.0},"b10_20":{"count":59,"cost":3665.0},"b20_30":{"count":1,"cost":191.0},"o30":{"count":2,"cost":1240.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":8,"cost":1390.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":2,"cost":400.0},"b1_10":{"count":15,"cost":1655.0},"b10_20":{"count":8,"cost":1040.0},"b20_30":{"count":4,"cost":1020.0},"o30":{"count":2,"cost":990.0}},"2026-09-15":{"u1":{"count":6,"cost":345.0},"b1_10":{"count":4,"cost":335.0},"b10_20":{"count":26,"cost":2674.0},"b20_30":{"count":4,"cost":1390.0},"o30":{"count":2,"cost":710.0}},"2026-09-16":{"u1":{"count":5,"cost":258.0},"b1_10":{"count":18,"cost":1033.0},"b10_20":{"count":55,"cost":2003.0},"b20_30":{"count":2,"cost":990.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":6,"cost":920.0},"b1_10":{"count":23,"cost":1760.0},"b10_20":{"count":30,"cost":2842.0},"b20_30":{"count":4,"cost":1010.0},"o30":{"count":3,"cost":1005.0}},"2026-09-18":{"u1":{"count":16,"cost":730.0},"b1_10":{"count":15,"cost":1632.0},"b10_20":{"count":128,"cost":6427.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":1,"cost":70.0},"b1_10":{"count":6,"cost":695.0},"b10_20":{"count":14,"cost":4730.0},"b20_30":{"count":4,"cost":1070.0},"o30":{"count":0,"cost":0.0}}},"total_count":880,"total_cost":81850.0},"157":{"name":"DC เชียงราย","dates":["2026-09-02","2026-09-04","2026-09-08","2026-09-09","2026-09-10","2026-09-12","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":315.0}},"2026-09-04":{"u1":{"count":1,"cost":75.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":6,"cost":630.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":1,"cost":35.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":1,"cost":45.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":4,"cost":660.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":1,"cost":50.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":155.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":4,"cost":1240.0}},"2026-09-17":{"u1":{"count":1,"cost":50.0},"b1_10":{"count":3,"cost":300.0},"b10_20":{"count":5,"cost":1075.0},"b20_30":{"count":2,"cost":480.0},"o30":{"count":2,"cost":710.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":120.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":41,"total_cost":6645.0},"230":{"name":"DC โคราช","dates":["2026-09-02","2026-09-03","2026-09-09","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-19"],"date_matrix":{"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":6,"cost":870.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":225.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":505.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-13":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":70.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":245.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":285.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":1285.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":115.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":195.0},"b20_30":{"count":4,"cost":900.0},"o30":{"count":1,"cost":375.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":685.0}}},"total_count":23,"total_cost":5980.0},"234":{"name":"DC อุบลราชธานี","dates":["2026-09-02","2026-09-03","2026-09-14","2026-09-16","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":155.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":2,"cost":310.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":135.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":130.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":220.0}}},"total_count":9,"total_cost":1130.0},"483":{"name":"DC ภูเก็ต","dates":["2026-09-02","2026-09-08","2026-09-19"],"date_matrix":{"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":225.0},"o30":{"count":0,"cost":0.0}}},"total_count":3,"total_cost":485.0},"631":{"name":"DC อยุธยา","dates":["2026-09-02","2026-09-03","2026-09-05","2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":8,"cost":1360.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":8,"cost":3160.0}},"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":5,"cost":865.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-05":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":2,"cost":340.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":2,"cost":730.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":165.0},"b10_20":{"count":8,"cost":1350.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":8,"cost":3040.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":8,"cost":1360.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":8,"cost":3020.0}},"2026-09-11":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":5,"cost":570.0},"b10_20":{"count":10,"cost":1700.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":10,"cost":3770.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":3,"cost":555.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":4,"cost":1700.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":150.0},"b10_20":{"count":3,"cost":495.0},"b20_30":{"count":2,"cost":470.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":3,"cost":150.0},"b10_20":{"count":8,"cost":1360.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":8,"cost":3370.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":7,"cost":1205.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":4,"cost":1490.0}},"2026-09-19":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":360.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":2,"cost":710.0}}},"total_count":145,"total_cost":35265.0},"672":{"name":"DC สุพรรณบุรี","dates":["2026-09-02","2026-09-05","2026-09-07","2026-09-08","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-02":{"u1":{"count":1,"cost":95.0},"b1_10":{"count":1,"cost":195.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":435.0}},"2026-09-05":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":375.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":155.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":135.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-13":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":3,"cost":415.0},"b20_30":{"count":2,"cost":610.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":275.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":1,"cost":225.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":145.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":275.0},"b10_20":{"count":2,"cost":380.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":3,"cost":645.0},"b20_30":{"count":1,"cost":295.0},"o30":{"count":2,"cost":630.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":355.0}}},"total_count":26,"total_cost":5930.0},"690":{"name":"DC พระราม 9","dates":["2026-09-02","2026-09-16","2026-09-17"],"date_matrix":{"2026-09-02":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":185.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":255.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":3,"total_cost":495.0},"163":{"name":"DC ตาก","dates":["2026-09-03","2026-09-15","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":115.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":1,"cost":50.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":1,"cost":65.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":6,"total_cost":605.0},"164":{"name":"DC สุโขทัย","dates":["2026-09-03","2026-09-04","2026-09-07","2026-09-09","2026-09-11","2026-09-14","2026-09-15","2026-09-18"],"date_matrix":{"2026-09-03":{"u1":{"count":1,"cost":95.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":1,"cost":165.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":115.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":2,"cost":210.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":120.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":100.0},"b20_30":{"count":1,"cost":275.0},"o30":{"count":0,"cost":0.0}}},"total_count":12,"total_cost":1320.0},"323":{"name":"DC พัทยา","dates":["2026-09-03","2026-09-09","2026-09-11","2026-09-16","2026-09-17"],"date_matrix":{"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":215.0},"b20_30":{"count":1,"cost":245.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":185.0},"b10_20":{"count":2,"cost":490.0},"b20_30":{"count":3,"cost":815.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":280.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":1,"cost":125.0},"b10_20":{"count":3,"cost":585.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":2,"cost":670.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":410.0},"b20_30":{"count":2,"cost":480.0},"o30":{"count":0,"cost":0.0}}},"total_count":24,"total_cost":4775.0},"325":{"name":"DC ปราจีนบุรี","dates":["2026-09-03","2026-09-07","2026-09-10","2026-09-11","2026-09-14","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":165.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":145.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":4,"cost":730.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":275.0},"b20_30":{"count":1,"cost":295.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":12,"total_cost":2075.0},"618":{"name":"DC สระบุรี","dates":["2026-09-03","2026-09-04","2026-09-05","2026-09-09","2026-09-12","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-03":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":3,"cost":545.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-05":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":40.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":1,"cost":65.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":1,"cost":45.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":105.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":680.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":115.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":17,"total_cost":2500.0},"156":{"name":"DC พะเยา","dates":["2026-09-04","2026-09-16","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":90.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":5,"cost":1300.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":4,"cost":940.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":290.0}}},"total_count":11,"total_cost":2620.0},"159":{"name":"DC ฝาง","dates":["2026-09-04","2026-09-06","2026-09-11","2026-09-15"],"date_matrix":{"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":125.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-06":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":160.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":675.0}}},"total_count":4,"total_cost":1055.0},"167":{"name":"DC เพชรบูรณ์","dates":["2026-09-04","2026-09-09","2026-09-10","2026-09-12","2026-09-15"],"date_matrix":{"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":2,"cost":250.0},"b20_30":{"count":2,"cost":360.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":110.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":100.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":3,"cost":465.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":1,"cost":175.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":12,"total_cost":1615.0},"170":{"name":"DC ชัยนาท","dates":["2026-09-04","2026-09-14","2026-09-19"],"date_matrix":{"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":255.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":400.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":1,"cost":45.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":4,"total_cost":700.0},"171":{"name":"DC แม่สาย","dates":["2026-09-04","2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":240.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":150.0},"o30":{"count":0,"cost":0.0}},"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":195.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":3,"cost":225.0},"b10_20":{"count":2,"cost":220.0},"b20_30":{"count":3,"cost":485.0},"o30":{"count":0,"cost":0.0}},"2026-09-12":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":100.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":2,"cost":370.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":40.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":3,"cost":325.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":3,"cost":1435.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":120.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":135.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":215.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":29,"total_cost":4550.0},"231":{"name":"DC บุรีรัมย์","dates":["2026-09-04","2026-09-06","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":435.0}},"2026-09-06":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":155.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":1,"cost":45.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":5,"cost":595.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":2,"cost":280.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":165.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":15,"total_cost":1925.0},"670":{"name":"DC ราชบุรี","dates":["2026-09-04","2026-09-14","2026-09-15","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":530.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":225.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":325.0}},"2026-09-18":{"u1":{"count":1,"cost":40.0},"b1_10":{"count":1,"cost":195.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":270.0},"b10_20":{"count":1,"cost":355.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":0,"cost":0.0}}},"total_count":12,"total_cost":2320.0},"673":{"name":"DC นครปฐม","dates":["2026-09-04","2026-09-05","2026-09-11","2026-09-15","2026-09-16","2026-09-17","2026-09-19"],"date_matrix":{"2026-09-04":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":440.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-05":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":165.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":2,"cost":360.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":80.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":3,"cost":1345.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":14,"cost":4250.0},"b20_30":{"count":2,"cost":360.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":28,"total_cost":7395.0},"158":{"name":"DC แม่ฮ่องสอน","dates":["2026-09-05","2026-09-07","2026-09-16","2026-09-17","2026-09-19"],"date_matrix":{"2026-09-05":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":95.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":155.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":1,"cost":125.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":6,"total_cost":585.0},"160":{"name":"DC นครสวรรค์","dates":["2026-09-06","2026-09-10","2026-09-11","2026-09-14","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-06":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":120.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":80.0},"b10_20":{"count":1,"cost":100.0},"b20_30":{"count":1,"cost":132.0},"o30":{"count":1,"cost":244.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":410.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":165.0},"b10_20":{"count":1,"cost":235.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":170.0},"o30":{"count":2,"cost":725.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":110.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":15,"total_cost":2681.0},"249":{"name":"DC มุกดาหาร","dates":["2026-09-06","2026-09-14","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-06":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":150.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":1,"cost":50.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":6,"total_cost":430.0},"152":{"name":"DC ลำปาง","dates":["2026-09-07","2026-09-10","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":80.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":2,"cost":385.0},"o30":{"count":1,"cost":220.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":160.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":2,"cost":270.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":70.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":135.0},"b20_30":{"count":1,"cost":255.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":180.0},"o30":{"count":1,"cost":225.0}}},"total_count":14,"total_cost":2240.0},"166":{"name":"DC พิจิตร","dates":["2026-09-07","2026-09-10","2026-09-14","2026-09-19"],"date_matrix":{"2026-09-07":{"u1":{"count":1,"cost":60.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":140.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":185.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":4,"total_cost":470.0},"241":{"name":"DC อุดรธานี","dates":["2026-09-07","2026-09-09","2026-09-10"],"date_matrix":{"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":15,"cost":2625.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":17,"total_cost":2725.0},"321":{"name":"DC ระยอง","dates":["2026-09-07","2026-09-14","2026-09-15","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":255.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":230.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":165.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":390.0},"b10_20":{"count":1,"cost":315.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":9,"total_cost":1415.0},"476":{"name":"DC ชะอำ","dates":["2026-09-07","2026-09-09","2026-09-10","2026-09-11","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":300.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":100.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":170.0},"b10_20":{"count":3,"cost":455.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":85.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":450.0},"b10_20":{"count":3,"cost":585.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":145.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":20,"total_cost":2565.0},"493":{"name":"DC พัทลุง","dates":["2026-09-07","2026-09-10","2026-09-14"],"date_matrix":{"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":240.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":1,"cost":145.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":65.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":5,"total_cost":545.0},"671":{"name":"DC กาญจนบุรี","dates":["2026-09-07","2026-09-16","2026-09-19"],"date_matrix":{"2026-09-07":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":255.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":200.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":235.0},"o30":{"count":7,"cost":2735.0}}},"total_count":11,"total_cost":3425.0},"245":{"name":"DC ร้อยเอ็ด","dates":["2026-09-08","2026-09-16","2026-09-17","2026-09-18"],"date_matrix":{"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":350.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":125.0},"b20_30":{"count":1,"cost":225.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":105.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":1,"cost":60.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":6,"total_cost":865.0},"486":{"name":"DC ชุมพร","dates":["2026-09-08","2026-09-10","2026-09-14","2026-09-16","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-08":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":140.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-10":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":120.0},"b10_20":{"count":1,"cost":145.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":160.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":3,"cost":775.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":1,"cost":35.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":9,"total_cost":1430.0},"235":{"name":"DC ยโสธร","dates":["2026-09-09","2026-09-11","2026-09-15","2026-09-17"],"date_matrix":{"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":500.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":225.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-15":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":135.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":215.0}}},"total_count":6,"total_cost":1290.0},"490":{"name":"DC หาดใหญ่","dates":["2026-09-09","2026-09-16","2026-09-17","2026-09-19"],"date_matrix":{"2026-09-09":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":565.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":225.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":60.0},"b10_20":{"count":1,"cost":205.0},"b20_30":{"count":1,"cost":215.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":720.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":8,"total_cost":1990.0},"624":{"name":"DC ฉะเชิงเทรา","dates":["2026-09-11","2026-09-16"],"date_matrix":{"2026-09-11":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":255.0},"o30":{"count":0,"cost":0.0}},"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":95.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":2,"total_cost":350.0},"236":{"name":"DC ชัยภูมิ","dates":["2026-09-13","2026-09-14","2026-09-18","2026-09-19"],"date_matrix":{"2026-09-13":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":75.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":90.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":2,"cost":520.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":3,"cost":375.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":7,"total_cost":1060.0},"155":{"name":"DC น่าน","dates":["2026-09-14"],"date_matrix":{"2026-09-14":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":2,"cost":210.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":2,"total_cost":210.0},"480":{"name":"DC ทุ่งสง","dates":["2026-09-15"],"date_matrix":{"2026-09-15":{"u1":{"count":1,"cost":35.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":1,"total_cost":35.0},"153":{"name":"DC อุตรดิตถ์","dates":["2026-09-16"],"date_matrix":{"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":90.0},"b10_20":{"count":1,"cost":90.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":2,"total_cost":180.0},"233":{"name":"DC ศรีสะเกษ","dates":["2026-09-16","2026-09-19"],"date_matrix":{"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":155.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":1,"cost":455.0}},"2026-09-19":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":1,"cost":180.0},"o30":{"count":0,"cost":0.0}}},"total_count":3,"total_cost":790.0},"251":{"name":"DC ปากช่อง","dates":["2026-09-16","2026-09-17"],"date_matrix":{"2026-09-16":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":90.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":295.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":2,"total_cost":385.0},"487":{"name":"DC กระบี่","dates":["2026-09-17","2026-09-18"],"date_matrix":{"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":50.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":1,"cost":55.0},"b10_20":{"count":0,"cost":0.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":2,"total_cost":105.0},"615":{"name":"DC ลพบุรี","dates":["2026-09-17","2026-09-18"],"date_matrix":{"2026-09-17":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":125.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}},"2026-09-18":{"u1":{"count":0,"cost":0.0},"b1_10":{"count":0,"cost":0.0},"b10_20":{"count":1,"cost":375.0},"b20_30":{"count":0,"cost":0.0},"o30":{"count":0,"cost":0.0}}},"total_count":2,"total_cost":500.0}}};
+
+const BUCKET_META = {
+  u1:      { label: "ต่ำกว่า 1 กก.",   color: "var(--u1)",     hex: "#5b8fd9" },
+  b1_10:   { label: "1 – 10 กก.",      color: "var(--b1_10)",  hex: "#2dd4c4" },
+  b10_20:  { label: "10.1 – 20 กก.",   color: "var(--b10_20)", hex: "#f5a623" },
+  b20_30:  { label: "20.1 – 30 กก.",   color: "var(--b20_30)", hex: "#e8743b" },
+  o30:     { label: "มากกว่า 30 กก.",  color: "var(--o30)",    hex: "#e0525f" },
+};
+const DAY_ORDER = ["จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์","อาทิตย์"];
+const DAY_SHORT = { "จันทร์":"จ.", "อังคาร":"อ.", "พุธ":"พ.", "พฤหัสบดี":"พฤ.", "ศุกร์":"ศ.", "เสาร์":"ส.", "อาทิตย์":"อา." };
+
+function fmtNum(n){ return Math.round(n).toLocaleString('th-TH'); }
+function fmtBaht(n){ return '฿' + Math.round(n).toLocaleString('th-TH'); }
+function fmtDate(d){
+  const dt = new Date(d);
+  return dt.toLocaleDateString('th-TH', { day:'numeric', month:'short', year:'2-digit' });
+}
+function fmtShortDate(d){
+  const dt = new Date(d);
+  return dt.toLocaleDateString('th-TH', { day:'numeric', month:'short' });
+}
+function dowShortOf(d){
+  const map = ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'];
+  return map[new Date(d).getDay()];
+}
+
+/* รองรับข้อมูลจาก Apps Script รุ่นเก่า (ยังไม่ได้ redeploy) ที่ dc_detail ยังเป็นแบบ
+   matrix ตามชื่อวัน แทนที่จะเป็น date_matrix ตามวันที่จริง — กันไม่ให้หน้าเว็บพังไปเลย */
+function normalizeDcDetail_(detail){
+  if (!detail) return { name:'', dates:[], date_matrix:{}, total_count:0, total_cost:0, legacy:false };
+  if (detail.dates && detail.date_matrix) return { ...detail, legacy:false };
+  if (detail.matrix){
+    const days = DAY_ORDER.filter(d => detail.matrix[d]);
+    return {
+      name: detail.name, dates: days, date_matrix: detail.matrix,
+      total_count: detail.total_count, total_cost: detail.total_cost, legacy:true,
+    };
+  }
+  return { name: detail.name||'', dates:[], date_matrix:{}, total_count: detail.total_count||0, total_cost: detail.total_cost||0, legacy:false };
+}
+function dateColLabel_(ds, legacy){ return legacy ? ds : fmtShortDate(ds); }
+function dateSubLabel_(ds, legacy){ return legacy ? DAY_SHORT[ds] : dowShortOf(ds); }
+
+let DATA = null;
+let dcSortField = 'count';
+
+function init(data){
+  DATA = data;
+  document.getElementById('genTime').textContent =
+    'อัปเดตล่าสุด ' + new Date().toLocaleString('th-TH', {dateStyle:'medium', timeStyle:'short'});
+  const periodText = 'ช่วง ' + fmtDate(data.meta.date_from) + ' – ' + fmtDate(data.meta.date_to);
+  ['periodSub1','periodSub2','periodSub3'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.textContent = periodText;
+  });
+
+  safeRun('execStrip', () => renderExecStrip(data));
+  safeRun('insightCards', () => renderInsightCards(data));
+  safeRun('metricCards', () => renderMetricCards(data));
+  safeRun('dayTrendWeek', () => renderDayTrend(data, 'dow', 'dayTrendWeek'));
+  safeRun('dayTrendDaily', () => renderDayTrend(data, 'daily', 'dayTrendDaily'));
+  safeRun('sizeDist', () => renderSizeDist(data));
+  safeRun('rankList', () => renderRankList(data, 12, 'count'));
+  safeRun('dcTileGrid', () => renderDCTable(data));
+
+  document.getElementById('dcSearch').addEventListener('input', e=>{
+    const q = e.target.value.trim();
+    if (q){
+      document.getElementById('fullListSection').classList.add('open');
+      document.getElementById('toggleAllBtn').classList.add('open');
+    }
+    safeRun('dcTileGrid', () => renderDCTable(DATA, q));
+  });
+  document.getElementById('toggleAllBtn').addEventListener('click', ()=>{
+    document.getElementById('fullListSection').classList.toggle('open');
+    document.getElementById('toggleAllBtn').classList.toggle('open');
+  });
+  document.getElementById('rankSortToggle').querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.getElementById('rankSortToggle').querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      safeRun('rankList', () => renderRankList(DATA, 12, btn.dataset.sort));
+    });
+  });
+  document.getElementById('overlay').addEventListener('click', closeDrawer);
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+}
+
+function renderExecStrip(data){
+  const strip = document.getElementById('execStrip');
+  const items = [
+    { label:'จำนวนชิ้นทั้งหมด', value: fmtNum(data.meta.total_count), color:'var(--u1)',
+      icon:'<path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/>' },
+    { label:'ค่าขนส่งรวม', value: fmtBaht(data.meta.total_cost), color:'var(--b1_10)',
+      icon:'<circle cx="12" cy="12" r="9"/><path d="M9 9.5c0-1 1-1.8 2.4-1.8 1.6 0 2.6.9 2.6 2 0 2.6-5 1.6-5 4.3 0 1.1 1 2 2.6 2 1.4 0 2.4-.8 2.4-1.8M12 6v1.4M12 16.6V18"/>' },
+    { label:'DC ต้นทาง', value: data.meta.dc_count + ' สาขา', color:'var(--b10_20)',
+      icon:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6M3 12h18"/>' },
+    { label:'ช่วงข้อมูล', value: fmtDate(data.meta.date_from) + ' – ' + fmtDate(data.meta.date_to), color:'var(--b20_30)', small:true,
+      icon:'<rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/>' },
+  ];
+  strip.innerHTML = items.map(it => `
+    <div class="exec-stat">
+      <div class="es-badge" style="background:${it.color}"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${it.icon}</svg></div>
+      <div><div class="el">${it.label}</div><div class="ev num" style="${it.small?'font-size:15px;':''}">${it.value}</div></div>
+    </div>`).join('');
+}
+
+function renderInsightCards(data){
+  const wrap = document.getElementById('insightCards');
+  const list = data.dc_list;
+  const buckets = data.bucket_summary || [];
+  const days = data.day_summary || [];
+  let cards = '';
+
+  if (list.length){
+    const n = Math.min(5, list.length);
+    const topSum = list.slice(0, n).reduce((s,d)=>s+d.count, 0);
+    const pct = (topSum / (data.meta.total_count || 1) * 100).toFixed(0);
+    cards += `<div class="insight-card">
+      <div class="ic-top">
+        <div class="ic-badge" style="background:var(--u1)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg></div>
+        <div class="ic-label">ความกระจุกตัว</div>
+      </div>
+      <div class="ic-value"><b>${n} สาขาแรก</b> คิดเป็น <b>${pct}%</b> ของทั้งหมด</div>
+      <div class="ic-sub">${list.slice(0,n).map(d=>d.name).join(', ')}</div>
+    </div>`;
+  }
+  if (buckets.length){
+    const topBucket = buckets.reduce((a,b)=> b.count > a.count ? b : a);
+    const pct = ((topBucket.count / (data.meta.total_count||1)) * 100).toFixed(0);
+    cards += `<div class="insight-card">
+      <div class="ic-top">
+        <div class="ic-badge" style="background:${BUCKET_META[topBucket.bucket].hex}"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M7 6h10l3 12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2L7 6z"/></svg></div>
+        <div class="ic-label">ไซส์ที่พบบ่อยที่สุด</div>
+      </div>
+      <div class="ic-value">${BUCKET_META[topBucket.bucket].label} <b>(${pct}%)</b></div>
+      <div class="ic-sub">${fmtNum(topBucket.count)} ชิ้น จากทั้งหมด</div>
+    </div>`;
+  }
+  if (days.length){
+    const topDay = days.reduce((a,b)=> b.count > a.count ? b : a);
+    cards += `<div class="insight-card">
+      <div class="ic-top">
+        <div class="ic-badge" style="background:var(--o30)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div>
+        <div class="ic-label">วันที่มีชิ้นเยอะที่สุด</div>
+      </div>
+      <div class="ic-value">วัน${topDay.day} <b>(${fmtNum(topDay.count)} ชิ้น)</b></div>
+      <div class="ic-sub">${fmtBaht(topDay.cost)} ค่าขนส่งของวันนี้</div>
+    </div>`;
+  }
+  wrap.innerHTML = cards;
+}
+
+function renderMetricCards(data){
+  const wrap = document.getElementById('metricCards');
+  const totalCount = data.meta.total_count || 1;
+  const avgCost = data.meta.total_cost / totalCount;
+  const avgWeight = data.meta.total_weight / totalCount;
+  const list = data.dc_list || [];
+
+  let costliestDc = null;
+  if (list.length){
+    costliestDc = list.reduce((a,b)=> (b.cost/b.count) > (a.cost/a.count) ? b : a);
+  }
+
+  const cards = [
+    { color:'var(--b1_10)', label:'น้ำหนักรวมทั้งหมด', value: fmtNum(data.meta.total_weight) + ' กก.',
+      sub: 'เฉลี่ย ' + avgWeight.toFixed(1) + ' กก./ชิ้น',
+      icon:'<path d="M12 3v3M7 6h10l3 12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2L7 6z"/><path d="M9 10a3 3 0 0 0 6 0"/>' },
+    { color:'var(--u1)', label:'ค่าขนส่งเฉลี่ยต่อชิ้น', value: fmtBaht(avgCost),
+      sub: 'จากทั้งหมด ' + fmtNum(totalCount) + ' ชิ้น',
+      icon:'<circle cx="12" cy="12" r="9"/><path d="M9 9.5c0-1 1-1.8 2.4-1.8 1.6 0 2.6.9 2.6 2 0 2.6-5 1.6-5 4.3 0 1.1 1 2 2.6 2 1.4 0 2.4-.8 2.4-1.8M12 6v1.4M12 16.6V18"/>' },
+  ];
+  if (costliestDc){
+    cards.push({ color:'var(--o30)', label:'ค่าขนส่ง/ชิ้น สูงสุด', value: costliestDc.name,
+      sub: fmtBaht(costliestDc.cost/costliestDc.count) + '/ชิ้น · ' + fmtNum(costliestDc.count) + ' ชิ้น',
+      icon:'<path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6l-6.3 4.4 2.3-7.2-6-4.4h7.6z"/>' });
+  }
+
+  wrap.innerHTML = cards.map(c => `
+    <div class="insight-card">
+      <div class="ic-top">
+        <div class="ic-badge" style="background:${c.color}"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${c.icon}</svg></div>
+        <div class="ic-label">${c.label}</div>
+      </div>
+      <div class="ic-value num">${c.value}</div>
+      <div class="ic-sub">${c.sub}</div>
+    </div>`).join('');
+}
+
+function computeDailyTotals_(data){
+  const totals = {}; // dateStr -> { count, dow_short }
+  const detailMap = data.dc_detail || {};
+  Object.keys(detailMap).forEach(code => {
+    const detail = normalizeDcDetail_(detailMap[code]);
+    if (detail.legacy) return; // ข้อมูลรุ่นเก่า (ตามชื่อวัน) ไม่มีวันที่จริงให้ใช้
+    detail.dates.forEach(ds => {
+      if (!totals[ds]) totals[ds] = 0;
+      const cell = detail.date_matrix[ds];
+      Object.keys(cell).forEach(bk => { totals[ds] += cell[bk].count; });
+    });
+  });
+  const dowLookup = {};
+  (data.dates || []).forEach(d => { dowLookup[d.date] = d.dow_short; });
+  return Object.keys(totals).sort().map(ds => ({
+    date: ds, count: totals[ds], dow_short: dowLookup[ds] || '',
+  }));
+}
+
+function renderDayTrend(data, mode, targetId){
+  const wrap = document.getElementById(targetId);
+  if (!wrap) return;
+
+  if (mode === 'daily'){
+    const daily = computeDailyTotals_(data);
+    wrap.classList.remove('scrollable');
+    wrap.classList.add('daily-fit');
+    if (!daily.length){
+      wrap.innerHTML = `<div class="trend-empty">ยังไม่มีข้อมูลรายวันที่จริง<br>(ต้องอัปเดต Apps Script เป็นรุ่นล่าสุด)</div>`;
+      return;
+    }
+    const max = Math.max(...daily.map(d=>d.count), 1);
+    wrap.innerHTML = daily.map(d=>{
+      const h = Math.max(8, Math.round((d.count/max)*100));
+      return `<div class="dt-col ${d.count===max ? 'max' : ''}">
+        <div class="dt-val num">${fmtNum(d.count)}</div>
+        <div class="dt-bar-wrap"><div class="dt-bar" style="height:${h}%"></div></div>
+        <div class="dt-label">${fmtShortDate(d.date)}<br>${d.dow_short}</div>
+      </div>`;
+    }).join('');
+    return;
+  }
+
+  wrap.classList.remove('scrollable');
+  const days = data.day_summary || [];
+  if (!days.length){ wrap.innerHTML = ''; return; }
+  const max = Math.max(...days.map(d=>d.count), 1);
+  const shortMap = { 'จันทร์':'จ.','อังคาร':'อ.','พุธ':'พ.','พฤหัสบดี':'พฤ.','ศุกร์':'ศ.','เสาร์':'ส.','อาทิตย์':'อา.' };
+  wrap.innerHTML = days.map(d=>{
+    const h = Math.max(8, Math.round((d.count/max)*100));
+    return `<div class="dt-col ${d.count===max ? 'max' : ''}">
+      <div class="dt-val num">${fmtNum(d.count)}</div>
+      <div class="dt-bar-wrap"><div class="dt-bar" style="height:${h}%"></div></div>
+      <div class="dt-label">${shortMap[d.day]||d.day}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderSizeDist(data){
+  const barWrap = document.getElementById('sizeDistBar');
+  const legendWrap = document.getElementById('sizeDistLegend');
+  const buckets = data.bucket_summary || [];
+  const total = data.meta.total_count || 1;
+  if (!buckets.length){ barWrap.innerHTML = ''; legendWrap.innerHTML = ''; return; }
+
+  barWrap.innerHTML = buckets.map(b=>{
+    const pct = (b.count / total * 100).toFixed(1);
+    return pct > 0 ? `<span style="width:${pct}%;background:${BUCKET_META[b.bucket].hex}"></span>` : '';
+  }).join('');
+
+  legendWrap.innerHTML = buckets.map(b=>{
+    const pct = (b.count / total * 100).toFixed(0);
+    return `<div class="sd-row">
+      <span class="sd-dot" style="background:${BUCKET_META[b.bucket].hex}"></span>
+      <span class="sd-label">${BUCKET_META[b.bucket].label}</span>
+      <span class="sd-pct">${pct}%</span>
+    </div>`;
+  }).join('');
+}
+
+function renderRankList(data, topN, sortKey){
+  topN = topN || 12;
+  sortKey = sortKey || 'count';
+  const wrap = document.getElementById('rankList');
+  const sorted = [...data.dc_list].sort((a,b)=> b[sortKey] - a[sortKey]);
+  const list = sorted.slice(0, topN);
+  const maxVal = list.length ? list[0][sortKey] : 1;
+  const bucketKeys = Object.keys(BUCKET_META);
+
+  document.getElementById('rankSubtitle').textContent = `Top ${list.length} จาก ${data.dc_list.length} สาขา`;
+
+  wrap.innerHTML = list.map((d, i)=>{
+    const pct = Math.max(3, Math.round((d[sortKey] / maxVal) * 100));
+    let mix = '';
+    try {
+      const detail = normalizeDcDetail_(data.dc_detail[String(d.code)]);
+      const sums = {};
+      bucketKeys.forEach(bk => { sums[bk] = 0; });
+      detail.dates.forEach(ds => bucketKeys.forEach(bk => {
+        const cell = detail.date_matrix[ds] && detail.date_matrix[ds][bk];
+        sums[bk] += cell ? cell.count : 0;
+      }));
+      const mixTotal = Object.values(sums).reduce((a,b)=>a+b,0) || 1;
+      mix = bucketKeys.map(bk => {
+        const p = (sums[bk] / mixTotal * 100).toFixed(1);
+        return p > 0 ? `<span style="width:${p}%;background:${BUCKET_META[bk].hex}"></span>` : '';
+      }).join('');
+    } catch(err){ console.error('[dashboard] rank mix failed for', d.code, err); }
+
+    return `<div class="rank-row ${i < 3 ? 'top' : ''}" data-code="${d.code}">
+      <div class="bar-bg" style="width:${pct}%"></div>
+      <div class="r-num">${i+1}</div>
+      <div class="r-name">${d.name}</div>
+      <div class="r-mix">${mix}</div>
+      <div class="r-nums">
+        <div class="r-count num">${fmtNum(d.count)}</div>
+        <div class="r-cost">${fmtBaht(d.cost)}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  wrap.querySelectorAll('.rank-row').forEach(row=>{
+    row.addEventListener('click', ()=> safeRun('drawer', () => openDrawer(row.dataset.code)));
+  });
+}
+
+/* กันไม่ให้ error ของ section หนึ่งทำให้ทั้งหน้าหยุดเรนเดอร์ */
+function safeRun(label, fn){
+  try { fn(); }
+  catch(err){ console.error('[dashboard] render failed:', label, err); }
+}
+
+function chartReady(){
+  return typeof Chart !== 'undefined';
+}
+function chartFallback(canvasId, message){
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const wrap = canvas.parentElement;
+  wrap.innerHTML = `<div style="height:100%;display:flex;align-items:center;justify-content:center;
+    color:var(--text-faint);font-size:12.5px;text-align:center;padding:0 20px;">${message}</div>`;
+}
+
+function renderDCTable(data, filter){
+  const grid = document.getElementById('dcTileGrid');
+  const totalCount = data.meta.total_count || 1;
+  const bucketKeys = Object.keys(BUCKET_META);
+
+  let list = data.dc_list;
+  if (filter){
+    const f = filter.toLowerCase();
+    list = list.filter(d => d.name.toLowerCase().includes(f) || String(d.code).includes(f));
+  }
+  const toggleLabel = document.getElementById('toggleAllLabel');
+  if (toggleLabel){
+    toggleLabel.textContent = filter
+      ? `พบ ${list.length} / ${data.dc_list.length} สาขา`
+      : `แสดงทั้งหมด ${data.dc_list.length} สาขา`;
+  }
+
+  grid.innerHTML = list.map((d, i)=>{
+    const share = (d.count / totalCount) * 100;
+    const tier = share >= 5 ? 'tier-high' : (share >= 1 ? 'tier-mid' : '');
+
+    let mix = '';
+    try {
+      const detail = normalizeDcDetail_(data.dc_detail[String(d.code)]);
+      const sums = {};
+      bucketKeys.forEach(bk => { sums[bk] = 0; });
+      detail.dates.forEach(ds => bucketKeys.forEach(bk => {
+        const cell = detail.date_matrix[ds] && detail.date_matrix[ds][bk];
+        sums[bk] += cell ? cell.count : 0;
+      }));
+      const mixTotal = Object.values(sums).reduce((a,b)=>a+b,0) || 1;
+      mix = bucketKeys.map(bk => {
+        const pct = (sums[bk] / mixTotal * 100).toFixed(1);
+        return pct > 0 ? `<span style="width:${pct}%;background:${BUCKET_META[bk].hex}"></span>` : '';
+      }).join('');
+    } catch(err){ console.error('[dashboard] tile mix failed for', d.code, err); }
+
+    return `<div class="dc-tile ${tier}" data-code="${d.code}">
+      <div class="t-rank">${i+1}</div>
+      <div class="t-count num">${fmtNum(d.count)}</div>
+      <div class="t-name">${d.name}</div>
+      <div class="t-cost">${fmtBaht(d.cost)}</div>
+      <div class="t-mix">${mix}</div>
+    </div>`;
+  }).join('');
+
+  grid.querySelectorAll('.dc-tile').forEach(tile=>{
+    tile.addEventListener('click', ()=> safeRun('drawer', () => openDrawer(tile.dataset.code)));
+  });
+}
+
+let drawerChartInstance = null;
+function openDrawer(code){
+  const raw = DATA.dc_detail[code];
+  if (!raw) return;
+  const dc = normalizeDcDetail_(raw);
+
+  document.getElementById('drawerName').textContent = dc.name;
+  document.getElementById('drawerCode').textContent = 'รหัสสาขา ' + code;
+  document.getElementById('drawerCount').textContent = fmtNum(dc.total_count);
+  document.getElementById('drawerCost').textContent = fmtBaht(dc.total_cost);
+
+  const bucketKeys = Object.keys(BUCKET_META);
+  const dates = dc.dates; // เรียงตามวันที่จริงตั้งแต่วันแรกที่มีข้อมูลของ DC นี้ (หรือชื่อวันถ้าข้อมูลยังเป็นรุ่นเก่า)
+  const dateLabels = dates.map(d => dateColLabel_(d, dc.legacy));
+  const cellOf = (d, bk) => (dc.date_matrix[d] && dc.date_matrix[d][bk]) ? dc.date_matrix[d][bk].count : 0;
+
+  if (drawerChartInstance) { drawerChartInstance.destroy(); drawerChartInstance = null; }
+  if (chartReady() && dates.length){
+    const ctx = document.getElementById('drawerChart').getContext('2d');
+    drawerChartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: dateLabels,
+        datasets: bucketKeys.map(bk=>({
+          label: BUCKET_META[bk].label,
+          data: dates.map(d => cellOf(d, bk)),
+          backgroundColor: BUCKET_META[bk].hex,
+          borderRadius: 3, maxBarThickness: 30,
+        }))
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        scales:{
+          x:{ stacked:true, grid:{display:false}, ticks:{ color:'#475569', font:{size:10.5}, maxRotation:60, minRotation:60 } },
+          y:{ stacked:true, grid:{color:'rgba(20,26,33,0.06)'}, ticks:{ color:'#94a3b8', font:{size:10.5} } }
+        },
+        plugins:{
+          legend:{display:false},
+          tooltip:{ mode:'index', intersect:false,
+            callbacks:{ title: items => dateLabels[items[0].dataIndex] + (dc.legacy ? '' : ' (' + dateSubLabel_(dates[items[0].dataIndex], false) + ')') } }
+        }
+      }
+    });
+  } else {
+    chartFallback('drawerChart', dates.length ? 'ไม่สามารถโหลดกราฟได้' : 'ยังไม่มีข้อมูลของ DC นี้');
+  }
+
+  const table = document.getElementById('drawerMatrix');
+  let html = '<thead><tr><th>ช่วงน้ำหนัก</th>' +
+    dates.map(d => `<th>${dateColLabel_(d, dc.legacy)}${dc.legacy ? '' : `<br><span style="font-weight:400;color:var(--text-faint);">${dateSubLabel_(d, false)}</span>`}</th>`).join('') +
+    '<th>รวม</th></tr></thead><tbody>';
+  bucketKeys.forEach(bk=>{
+    let rowTotal = 0;
+    html += `<tr><td><span class="bucket-dot" style="background:${BUCKET_META[bk].hex};margin-right:6px;"></span>${BUCKET_META[bk].label}</td>`;
+    dates.forEach(d=>{
+      const c = cellOf(d, bk);
+      rowTotal += c;
+      html += `<td>${c || '–'}</td>`;
+    });
+    html += `<td>${rowTotal}</td></tr>`;
+  });
+  let colTotals = dates.map(d => bucketKeys.reduce((s,bk)=> s + cellOf(d, bk), 0));
+  html += `<tr><td>รวม</td>` + colTotals.map(c=>`<td>${c}</td>`).join('') + `<td>${dc.total_count}</td></tr>`;
+  html += '</tbody>';
+  table.innerHTML = html;
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+function closeDrawer(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+
+/* ---- โหลดข้อมูล: demo หรือ Google Apps Script จริง (มี fallback กันหน้าเปล่า) ---- */
+function loadLiveData(callback){
+  const script = document.createElement('script');
+  const cbName = 'raCallback_' + Date.now();
+  let done = false;
+
+  const timeout = setTimeout(()=>{
+    if (done) return; done = true;
+    console.error('[dashboard] live data timed out, falling back to demo data');
+    showDataWarning('โหลดข้อมูลจริงไม่สำเร็จ (หมดเวลา) กำลังแสดงข้อมูลตัวอย่างแทน');
+    callback(DEMO_DATA);
+  }, 20000);
+
+  window[cbName] = function(json){
+    if (done) return; done = true;
+    clearTimeout(timeout);
+    callback(json);
+    delete window[cbName];
+    script.remove();
+  };
+  script.onerror = function(){
+    if (done) return; done = true;
+    clearTimeout(timeout);
+    console.error('[dashboard] live data script failed to load');
+    showDataWarning('เชื่อมต่อ Google Apps Script ไม่สำเร็จ กำลังแสดงข้อมูลตัวอย่างแทน');
+    callback(DEMO_DATA);
+  };
+  script.src = API_URL + (API_URL.includes('?') ? '&' : '?') + 'callback=' + cbName;
+  document.body.appendChild(script);
+}
+
+function showDataWarning(msg){
+  const bar = document.createElement('div');
+  bar.style.cssText = 'background:#fff4e0;border-bottom:1px solid rgba(245,166,35,0.35);'+
+    'color:#8a5a10;font-size:12.5px;text-align:center;padding:8px 16px;position:relative;z-index:50;';
+  bar.textContent = '⚠ ' + msg;
+  document.body.insertBefore(bar, document.body.firstChild);
+}
+
+/* ---- โหลด Chart.js พร้อม CDN สำรอง กันกรณี cdnjs ถูกบล็อก ---- */
+function loadScript_(url){
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = url;
+    s.onload = () => resolve(true);
+    s.onerror = () => reject(new Error('load failed: ' + url));
+    document.head.appendChild(s);
+  });
+}
+async function ensureChart_(){
+  if (window.Chart) return true;
+  const urls = [
+    'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js',
+    'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js',
+  ];
+  for (const url of urls){
+    try { await loadScript_(url); if (window.Chart) return true; }
+    catch(err){ console.warn('[dashboard]', err.message); }
+  }
+  return false;
+}
+
+(async function bootstrap(){
+  await ensureChart_();
+  if (USE_DEMO_DATA || !API_URL) {
+    init(DEMO_DATA);
+  } else {
+    loadLiveData(init);
+  }
+})();
+</script>
+</body>
+</html>
